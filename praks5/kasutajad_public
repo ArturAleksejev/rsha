@@ -1,0 +1,17 @@
+#!/bin/bash
+
+for kasutaja in $(cat /etc/passwd |cut -d ":" -f1)
+do
+	if ls /home/$kasutaja | grep "public_html"
+	then
+		echo "Kasutajal $kasutaja public kataloog on juba olemas."
+	else
+		mkdir /home/$kasutaja/public_html
+		echo "Tervist $kasutaja!" > /home/$kasutaja/public_html/index.html
+		chown -R 755 /home/$kasutaja/public_html
+		chown -R $kasutaja:www-data /home/$kasutaja/public_html
+		echo "Kasutajale $kasutaja on loodud public kaust"
+	fi
+done
+a2enmod userdir
+service apache2 restart
