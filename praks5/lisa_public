@@ -1,0 +1,11 @@
+#!/bin/bash
+
+echo "Palun sisesta kasutajanimi: "
+read kasutaja
+
+mkdir public_html /home/$kasutaja/public_html
+echo "Tervist $kasutaja!" > /home/$kasutaja/public_html/index.html
+chown -R 755 /home/$kasutaja/public_html
+chown -R $kasutaja:www-data /home/$kasutaja/public_html
+a2enmod userdir
+service apache2 restart 
